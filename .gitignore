@@ -1,0 +1,12 @@
+venv/
+*.egg-info/
+.vscode/
+
+# Build artifacts
+build/
+dist/
+
+# Python cache
+*_cache/
+__pycache__/
+*.pyc
