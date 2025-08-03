@@ -3,8 +3,9 @@ import numpy as np
 
 
 class Load(ABC):
-    """Marker base class for all loads."""
-    pass
+    @abstractmethod
+    def load_distribution(self, positions: np.ndarray) -> np.ndarray:
+        pass
 
 
 class ForceLoad(Load):
@@ -15,6 +16,9 @@ class ForceLoad(Load):
 
 
 class MomentLoad(Load):
+    position:float
+    magnitude:float
+
     @abstractmethod
     def load_distribution(self, positions: np.ndarray) -> np.ndarray:
         """Returns moment step at each position."""
