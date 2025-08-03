@@ -42,3 +42,26 @@ class PointForce(ForceLoad):
 
         return data
 
+class UniformDistributedLoad(Load):
+    def __init__(self, w, start, end):
+        assert start < end
+        assert 0 <= start <= 1, "Position must be normalized"
+        assert 0 <= end <= 1, "Position must be normalized"
+
+        self.w = w
+        self.start = start
+        self.end = end
+
+    def load_distribution(self, inputs):
+        data = np.zeros_like(inputs)
+        dx = inputs[1] - inputs[0]
+
+        x1 = int(np.round(self.start*len(inputs)))
+        x2 = int(np.round(self.end*len(inputs)))
+
+        data[x1:x2] = self.w*dx
+
+        return data
+    
+    def get_total_force(self, length):
+        return self.w*(self.end-self.start)*length
