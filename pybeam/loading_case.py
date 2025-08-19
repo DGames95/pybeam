@@ -12,7 +12,7 @@ class LoadingCase:
         normal_loads: Iterable[Load]=[],
         shear_loads: Iterable[Load]=[],
         point_moments: Iterable[MomentLoad]=[],
-        torsional_loads: Iterable[Load]=[],
+        torsional_loads: Iterable[MomentLoad]=[],
         name: str = "LoadingCase"
     ):
         self.normal_loads = normal_loads
