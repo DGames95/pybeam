@@ -9,7 +9,7 @@ class Material:
     shear_strength: float
     compressive_strength: float
 
-
+@dataclass
 class Steel(Material):
     name: str = "Steel"
     density: float = 7850  # kg/m^3
