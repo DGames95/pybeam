@@ -2,19 +2,30 @@ from abc import ABC, abstractmethod
 
 from pybeam.profiles import StaticProfile
 from pybeam.materials import Material
-from pybeam.loads import Load
+from pybeam.loads import Load, MomentLoad
 from pybeam.loading_case import LoadingCase
 
 class Member(ABC):
-    loading: LoadingCase
     length: float
 
     @abstractmethod
     def get_weight(self) -> float:
         pass
-    
 
-class UniformMember(Member):
+class Loadable(ABC):
+    loading: LoadingCase
+
+    def add_normal_load(self, load: Load):
+        self.loading.axial_loads.append(load)
+
+    def add_shear_load(self, load: Load):
+        self.loading.shear_loads.append(load)
+
+    def add_moment_load(self, load: MomentLoad):
+        self.loading.point_moments.append(load)
+
+
+class UniformMember(Member, Loadable):
     def __init__(self, length: float, profile: StaticProfile, material: Material):
         self.length = length
         self.profile = profile

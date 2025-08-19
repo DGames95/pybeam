@@ -58,7 +58,7 @@ class MatplotlibVisualizer(Visualizer):
                         fontsize=9)
 
         # --- draw normal (axial) point-loads ----------------------------------------
-        for load in analyzer.case.normal_loads:
+        for load in analyzer.case.axial_loads:
             if isinstance(load, PointForce):
                 normal_force_x = load.position * analyzer.length           # application point along the beam
                 direction = 1 if load.magnitude >= 0 else -1   # +1 → (tension), −1 ← (compression)

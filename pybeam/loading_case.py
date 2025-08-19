@@ -1,4 +1,3 @@
-from typing import Iterable
 import numpy as np
 
 from .loads import Load, MomentLoad
@@ -9,13 +8,13 @@ class LoadingCase:
         self,
         length: float,
         num_points: int,
-        normal_loads: Iterable[Load]=[],
-        shear_loads: Iterable[Load]=[],
-        point_moments: Iterable[MomentLoad]=[],
-        torsional_loads: Iterable[MomentLoad]=[],
+        axial_loads: list[Load]=[],
+        shear_loads: list[Load]=[],
+        point_moments: list[MomentLoad]=[],
+        torsional_loads: list[MomentLoad]=[],
         name: str = "LoadingCase"
     ):
-        self.normal_loads = normal_loads
+        self.axial_loads = axial_loads
         self.shear_loads = shear_loads
         self.point_moments = point_moments
         self.torsional_loads = torsional_loads
