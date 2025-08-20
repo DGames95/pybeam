@@ -14,7 +14,7 @@ class TestBeamAnalyzer:
         mock_case = Mock(spec=LoadingCase)
         mock_case.points = np.linspace(0, 1, 11)
         mock_case.length = 1.0
-        mock_case.normal_loads = []
+        mock_case.axial_loads = []
         mock_case.shear_loads = []
         mock_case.point_moments = []
         mock_case.torsional_loads = []
@@ -33,36 +33,36 @@ class TestBeamAnalyzer:
         assert np.array_equal(analyzer.points, mock_load_case.points)
         assert analyzer.length == mock_load_case.length
     
-    def test_get_internal_normal_force_no_loads(self, analyzer):
-        """Test get_internal_normal_force with no normal loads"""
-        result = analyzer.get_internal_normal_force()
+    def test_get_internal_axial_force_no_loads(self, analyzer):
+        """Test get_internal_axial_force with no axial loads"""
+        result = analyzer.get_internal_axial_force()
         expected = np.zeros_like(analyzer.points)
         
         np.testing.assert_array_equal(result, expected)
     
-    def test_get_internal_normal_force_single_load(self, analyzer):
-        """Test get_internal_normal_force with single normal load"""
+    def test_get_internal_axial_force_single_load(self, analyzer):
+        """Test get_internal_axial_force with single axial load"""
         mock_load = Mock(spec=Load)
         mock_load.load_distribution.return_value = np.ones_like(analyzer.points) * 10
-        analyzer.case.normal_loads = [mock_load]
+        analyzer.case.axial_loads = [mock_load]
         
-        result = analyzer.get_internal_normal_force()
+        result = analyzer.get_internal_axial_force()
         expected = np.ones_like(analyzer.points) * 10
         
         np.testing.assert_array_equal(result, expected)
         mock_load.load_distribution.assert_called_once_with(analyzer.points)
     
-    def test_get_internal_normal_force_multiple_loads(self, analyzer):
-        """Test get_internal_normal_force with multiple normal loads"""
+    def test_get_internal_axial_force_multiple_loads(self, analyzer):
+        """Test get_internal_axial_force with multiple axial loads"""
         mock_load1 = Mock(spec=Load)
         mock_load1.load_distribution.return_value = np.ones_like(analyzer.points) * 5
         
         mock_load2 = Mock(spec=Load)
         mock_load2.load_distribution.return_value = np.ones_like(analyzer.points) * 3
         
-        analyzer.case.normal_loads = [mock_load1, mock_load2]
+        analyzer.case.axial_loads = [mock_load1, mock_load2]
         
-        result = analyzer.get_internal_normal_force()
+        result = analyzer.get_internal_axial_force()
         expected = np.ones_like(analyzer.points) * 8
         
         np.testing.assert_array_equal(result, expected)
@@ -190,7 +190,7 @@ class TestBeamAnalyzer:
     def test_points_array_consistency(self, analyzer):
         """Test that all methods return arrays of the same shape as points"""
         methods_to_test = [
-            'get_internal_normal_force',
+            'get_internal_axial_force',
             'get_shear_loads',
             'get_internal_shear',
             'get_internal_moments',
@@ -210,7 +210,7 @@ class TestBeamAnalyzer:
         mock_case = Mock(spec=LoadingCase)
         mock_case.points = points
         mock_case.length = 10.0
-        mock_case.normal_loads = []
+        mock_case.axial_loads = []
         mock_case.shear_loads = []
         mock_case.point_moments = []
         mock_case.torsional_loads = []
@@ -249,14 +249,14 @@ class TestBeamAnalyzerEdgeCases:
         mock_case = Mock(spec=LoadingCase)
         mock_case.points = np.array([])
         mock_case.length = 0
-        mock_case.normal_loads = []
+        mock_case.axial_loads = []
         mock_case.shear_loads = []
         mock_case.point_moments = []
         mock_case.torsional_loads = []
         
         analyzer = BeamAnalyzer(mock_case)
         
-        result = analyzer.get_internal_normal_force()
+        result = analyzer.get_internal_axial_force()
         assert len(result) == 0
     
     def test_single_point_array(self):
@@ -264,14 +264,14 @@ class TestBeamAnalyzerEdgeCases:
         mock_case = Mock(spec=LoadingCase)
         mock_case.points = np.array([0.5])
         mock_case.length = 1.0
-        mock_case.normal_loads = []
+        mock_case.axial_loads = []
         mock_case.shear_loads = []
         mock_case.point_moments = []
         mock_case.torsional_loads = []
         
         analyzer = BeamAnalyzer(mock_case)
         
-        result = analyzer.get_internal_normal_force()
+        result = analyzer.get_internal_axial_force()
         expected = np.array([0.0])
         
         np.testing.assert_array_equal(result, expected)

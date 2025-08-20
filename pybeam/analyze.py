@@ -10,11 +10,11 @@ class BeamAnalyzer:
         self.points = load_case.points
         self.length = load_case.length
 
-    def get_internal_normal_force(self):
-        net_normal = np.zeros_like(self.points)
+    def get_internal_axial_force(self):
+        net_axial = np.zeros_like(self.points)
         for load in self.case.axial_loads:
-            net_normal += load.load_distribution(self.points)
-        return net_normal
+            net_axial += load.load_distribution(self.points)
+        return net_axial
 
     def get_shear_loads(self):
         net_shear = np.zeros_like(self.points)
