@@ -1,5 +1,5 @@
 from typing import Iterable
-from abc import ABC
+from abc import ABC, abstractmethod
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
@@ -12,11 +12,12 @@ from .loads import Load, PointMoment, PointForce, UniformDistributedLoad
 from .analyze import BeamAnalyzer
 
 class Visualizer(ABC):
+    @abstractmethod
     def render(self, analyzer):
         pass
 
 class MatplotlibVisualizer(Visualizer):
-    def __init__(self, show=True, save=False, save_folder=None, filename_prefix="beam_analysis"):
+    def __init__(self, show=True, save=False, save_folder=None, fileformat="png", filename_prefix="beam_analysis"):
         if save_folder is None:
             save_folder = tempfile.gettempdir()
 
@@ -25,6 +26,7 @@ class MatplotlibVisualizer(Visualizer):
         self.save_path = Path(save_folder)
         self.save_path.mkdir(parents=True, exist_ok=True)
         self.filename_prefix = filename_prefix
+        self.fileformat = fileformat
 
     def render(self, analyzer: BeamAnalyzer):
         # Extract analysis results
@@ -189,5 +191,5 @@ class MatplotlibVisualizer(Visualizer):
             plt.show()
 
         if self.save:
-            fig.savefig(str(self.save_path) + f"/{self.filename_prefix}_combined_diagrams.pdf", format='pdf', dpi=300)
+            fig.savefig(str(self.save_path) + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}", format=self.fileformat, dpi=300)
             print(f"Saved diagram to: {self.save_path}")
