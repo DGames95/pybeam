@@ -16,9 +16,6 @@ class ForceLoad(Load):
 
 
 class MomentLoad(Load):
-    position:float
-    magnitude:float
-
     @abstractmethod
     def load_distribution(self, positions: np.ndarray) -> np.ndarray:
         """Returns moment step at each position."""
@@ -69,3 +66,24 @@ class UniformDistributedLoad(Load):
     
     def get_total_force(self, length):
         return self.w*(self.end-self.start)*length
+
+
+class PointMoment(MomentLoad):
+    """
+    Point Moment
+    """
+    def __init__(self, magnitude, normalized_position):
+        assert 0 <= normalized_position <= 1, "Position must be normalized"
+
+        self.magnitude = magnitude
+        self.position = normalized_position
+
+    def load_distribution(self, positions):
+        data = np.zeros_like(positions)
+        index = int(np.round(self.position*len(positions)))
+        if self.position==1:  # deal with discretization at end
+            index = -1
+
+        data[index] = self.magnitude
+
+        return data

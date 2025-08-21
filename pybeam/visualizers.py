@@ -7,7 +7,7 @@ from matplotlib.patches import Arc
 from pathlib import Path
 import tempfile
 
-from .loads import Load, MomentLoad, PointForce, UniformDistributedLoad
+from .loads import Load, PointMoment, PointForce, UniformDistributedLoad
 
 from .analyze import BeamAnalyzer
 
@@ -86,7 +86,7 @@ class MatplotlibVisualizer(Visualizer):
                         fontsize=9)
         
         for load in analyzer.case.point_moments:
-            if isinstance(load, MomentLoad):
+            if isinstance(load, PointMoment):
                 x_moment = load.position * analyzer.length
                 m_moment = load.magnitude
                 direction = 1 if m_moment < 0 else -1  # -1: clockwise, 1: counterclockwise
