@@ -1,23 +1,36 @@
-from typing import Iterable
+""" Visualizers for beam analysis results. """
+
 from abc import ABC, abstractmethod
+from pathlib import Path
+import tempfile
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib.patches import Arc
-from pathlib import Path
-import tempfile
 
-from .loads import Load, PointMoment, PointForce, UniformDistributedLoad
+
+from .loads import PointMoment, PointForce, UniformDistributedLoad
 
 from .analyze import BeamAnalyzer
 
 class Visualizer(ABC):
+    """ Abstract base class for visualizers, taking analysis and rendering it """
     @abstractmethod
     def render(self, analyzer):
-        pass
+        """ Render the analysis results """
+
+
+# pylint: disable-all
+# reason: this needs to be rewritten in general
 
 class MatplotlibVisualizer(Visualizer):
-    def __init__(self, show=True, save=False, save_folder=None, fileformat="png", filename_prefix="beam_analysis"):
+    """ Visualizer using Matplotlib """
+    def __init__(self,
+                 show=True,
+                 save=False,
+                 save_folder=None,
+                 fileformat="png",
+                 filename_prefix="beam_analysis"):
         if save_folder is None:
             save_folder = tempfile.gettempdir()
 
@@ -40,8 +53,6 @@ class MatplotlibVisualizer(Visualizer):
         # 1) Load diagram
         ax_load = fig.add_subplot(gs[0])
         ax_load.plot([x[0], x[-1]], [0, 0], color='black', linewidth=4)
-
-        
 
         # Draw Point Loads
         for load in analyzer.case.shear_loads:
@@ -190,6 +201,12 @@ class MatplotlibVisualizer(Visualizer):
         if self.show:
             plt.show()
 
+
+        full_path = str(self.save_path) \
+                    + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}"
+        
         if self.save:
-            fig.savefig(str(self.save_path) + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}", format=self.fileformat, dpi=300)
+            fig.savefig(full_path,
+                        format=self.fileformat,
+                        dpi=300)
             print(f"Saved diagram to: {self.save_path}")
