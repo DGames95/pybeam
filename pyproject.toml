@@ -15,6 +15,9 @@ dependencies = [
   "matplotlib>=3.0"
 ]
 
+[tool.setuptools.package-data]
+your_package = ["py.typed"]
+
 [project.optional-dependencies]
 dev = [
   "pytest>=7.0",
