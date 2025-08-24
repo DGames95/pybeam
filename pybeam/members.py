@@ -19,7 +19,7 @@ class AbstractMember(ABC):
 class Loadable():
     loading: LoadingCase
             
-    def __init__(self, length, resolution, name="loading"):
+    def __init__(self, length: float, resolution: int, name="loading"):
         self.loading = LoadingCase(length=length, num_points=resolution, name=name)
 
 
@@ -84,7 +84,7 @@ class Loadable():
 
 
 class UniformMember(AbstractMember, Loadable):
-    def __init__(self, length: float, profile: StaticProfile, material: Material, name="uniform-member", resolution=1000):
+    def __init__(self, length: float, profile: StaticProfile, material: Material, name="uniform-member", resolution: int=1000):
         super().__init__(length=length, resolution=resolution, name=name)  # Call Loadable.__init__
         self.length = length
         self.profile = profile
