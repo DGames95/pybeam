@@ -8,7 +8,7 @@ from pybeam.analyze import BeamAnalyzer
 from pybeam.visualizers import MatplotlibVisualizer
 
 
-class Member(ABC):
+class AbstractMember(ABC):
     length: float
 
     @abstractmethod
@@ -16,8 +16,12 @@ class Member(ABC):
         pass
 
 
-class LoadableMixin():
+class Loadable():
     loading: LoadingCase
+            
+    def __init__(self, length, resolution, name="loading"):
+        self.loading = LoadingCase(length=length, num_points=resolution, name=name)
+
 
     def add_axial_load(self, magnitude: float, position: float):
         """
@@ -79,12 +83,12 @@ class LoadableMixin():
         analyzer.visualize(vis)
 
 
-class UniformMember(Member, LoadableMixin):
+class UniformMember(AbstractMember, Loadable):
     def __init__(self, length: float, profile: StaticProfile, material: Material, name="uniform-member", resolution=1000):
+        super().__init__(length=length, resolution=resolution, name=name)  # Call Loadable.__init__
         self.length = length
         self.profile = profile
         self.material = material
-        self.loading = LoadingCase(length=length, num_points=resolution, name=name)
 
     def get_area(self) -> float:
         return self.profile.get_area()
