@@ -18,3 +18,28 @@ Beam Analysis is a lightweight Python package for structural beam analysis.
 
     analyzer.visualize(visualizers.MatplotlibVisualizer())
 
+
+### Use
+(windows)
+
+clone repo
+
+    python -m venv ./venv
+    ./venv/Scripts/Activate.ps1
+
+    pip install -r requirements.txt
+    
+
+test:
+    pip install -r requirements-dev.txt
+    python -m pytest .\test\
+
+    coverage run -m pytest
+    coverage report -m
+
+#### build
+
+    python -m build
+
+whl file in dist/
+
