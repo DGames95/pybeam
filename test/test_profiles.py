@@ -12,4 +12,4 @@ def test_ibeam_profile():
 
     # Test the moment of inertia calculation
     expected_moi = 7.727e-4  # hand calculation
-    assert np.isclose(ibeam.get_moment_of_inertia(), expected_moi), "Moment of inertia calculation is incorrect"
+    assert np.isclose(ibeam.get_area_moment_of_inertia(), expected_moi), "Moment of inertia calculation is incorrect"
