@@ -24,7 +24,7 @@ jobs:
         pip install .[dev]
 
     - name: Run Pylint
-      run: pylint pybeam/
+      run: pylint pybeam/ 
 
     - name: Run tests
       run: |
