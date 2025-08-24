@@ -1,4 +1,4 @@
-print("dev version pybeam 0.0.1")
+""" PyBeam: A simple structural analysis library for beams. """
 
 from . import members
 from . import profiles
