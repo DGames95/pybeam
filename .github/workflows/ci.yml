@@ -23,10 +23,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install .[dev]
 
+    - name: mypy type check
+      run: mypy pybeam/
+
     - name: Run Pylint
-      run: pylint pybeam/ 
+      run: pylint pybeam/
 
     - name: Run tests
       run: |
         pip install pytest
         pytest test
+
