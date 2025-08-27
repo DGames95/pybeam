@@ -24,7 +24,10 @@ dev = [
   "mypy",
   "pip-tools",
   "coverage",
-  "pylint"
+  "pylint",
+  "sphinx",
+  "sphinx-rtd-theme",
+  "sphinx-autodoc-typehints"
 ]
 
 [project.urls]
