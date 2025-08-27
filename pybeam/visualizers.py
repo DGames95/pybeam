@@ -44,8 +44,8 @@ class MatplotlibVisualizer(Visualizer):
     def render(self, analyzer: BeamAnalyzer):
         # Extract analysis results
         x = analyzer.points
-        v = analyzer.get_internal_shear()
-        m = analyzer.get_internal_moments()
+        v = -analyzer.get_internal_shear()
+        m = -analyzer.get_internal_moments()
 
         fig = plt.figure(figsize=(7, 8))
         gs = GridSpec(3, 1, height_ratios=[1, 1, 1], hspace=0.4)
@@ -58,7 +58,7 @@ class MatplotlibVisualizer(Visualizer):
         for load in analyzer.case.shear_loads:
             if isinstance(load, PointForce):
                 pos = load.position * analyzer.length
-                direction = -1 if load.magnitude > 0 else 1
+                direction = 1 if load.magnitude > 0 else -1
                 arrow_start = 0.6 * direction
                 arrow_length = -0.5 * direction
                 ax_load.arrow(pos, arrow_start, 0, arrow_length,

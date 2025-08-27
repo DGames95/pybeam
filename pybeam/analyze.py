@@ -40,7 +40,7 @@ class BeamAnalyzer:
         """ Get internal bending moment along the beam """
         dx = self.points[1] - self.points[0]
         moment_from_shear = np.cumsum(self.get_internal_shear() * dx)
-        moment_from_moments = np.cumsum(self.get_moment_loads())
+        moment_from_moments = -np.cumsum(self.get_moment_loads())
         
         return moment_from_shear + moment_from_moments
 
