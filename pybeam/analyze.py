@@ -24,6 +24,13 @@ class BeamAnalyzer:
         for load in self.case.shear_loads:
             net_shear += load.load_distribution(self.points)
         return net_shear
+    
+    def get_moment_loads(self):
+        """ Get moment loads along the beam"""
+        point_moment_distribution = np.zeros_like(self.points)
+        for moment in self.case.point_moments:
+            point_moment_distribution += moment.load_distribution(self.points)
+        return point_moment_distribution
 
     def get_internal_shear(self):
         """ Get internal shear along the beam """
@@ -33,10 +40,9 @@ class BeamAnalyzer:
         """ Get internal bending moment along the beam """
         dx = self.points[1] - self.points[0]
         moment_from_shear = np.cumsum(self.get_internal_shear() * dx)
-        point_moment_distribution = np.zeros_like(self.points)
-        for moment in self.case.point_moments:
-            point_moment_distribution += moment.load_distribution(self.points)
-        return moment_from_shear + point_moment_distribution
+        moment_from_moments = np.cumsum(self.get_moment_loads())
+        
+        return moment_from_shear + moment_from_moments
 
     def get_internal_torsion(self):
         """ Get internal torsion along the beam """
