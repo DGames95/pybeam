@@ -15,11 +15,11 @@ Beam Analysis is a lightweight Python package for structural beam analysis.
     loadable = members.Loadable(length, resolution)
 
     # add load 
-    loadable.add_shear_load(load, load_position/length)  # relative position
+    loadable.add_shear_point_force(load, load_position/length)  # relative position
 
     # reaction loads (no automated solver yet)
-    loadable.add_shear_load(-load, 0)
-    loadable.add_moment_load(-load*length, 0)
+    loadable.add_shear_point_force(-load, 0)
+    loadable.add_point_moment(-load*length, 0)
 
     loadable.plot()
 

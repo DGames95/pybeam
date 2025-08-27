@@ -41,7 +41,7 @@ class Loadable():
         self.loading = LoadingCase(length=length, num_points=resolution, name=name)
 
 
-    def add_axial_load(self, magnitude: float, position: float):
+    def add_axial_point_force(self, magnitude: float, position: float):
         """
         Add an axial point force to the member.
 
@@ -51,7 +51,7 @@ class Loadable():
         """
         self.loading.axial_loads.append(PointForce(magnitude, position))
 
-    def add_shear_load(self, magnitude: float, position: float):
+    def add_shear_point_force(self, magnitude: float, position: float):
         """
         Add a shear point force to the member.
 
@@ -61,7 +61,7 @@ class Loadable():
         """
         self.loading.shear_loads.append(PointForce(magnitude, position))
 
-    def add_moment_load(self, magnitude: float, position: float):
+    def add_point_moment(self, magnitude: float, position: float):
         """
         Add a point moment to the member.
 

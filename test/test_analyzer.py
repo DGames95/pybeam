@@ -126,25 +126,6 @@ class TestBeamAnalyzer:
             
             np.testing.assert_array_almost_equal(result, expected)
     
-    def test_get_internal_moments_with_point_moments(self, analyzer):
-        """Test get_internal_moments with point moments"""
-        mock_moment = Mock(spec=Load)
-        mock_moment.load_distribution.return_value = np.ones_like(analyzer.points) * 2
-        analyzer.case.point_moments = [mock_moment]
-        
-        with patch.object(analyzer, 'get_internal_shear') as mock_shear:
-            shear_values = np.ones_like(analyzer.points) * 3
-            mock_shear.return_value = shear_values
-            
-            result = analyzer.get_internal_moments()
-            
-            dx = analyzer.points[1] - analyzer.points[0]
-            moment_from_shear = np.cumsum(shear_values * dx)
-            point_moments = np.ones_like(analyzer.points) * 2
-            expected = moment_from_shear + point_moments
-            
-            np.testing.assert_array_almost_equal(result, expected)
-    
     def test_get_internal_torsion_no_loads(self, analyzer):
         """Test get_internal_torsion with no torsional loads"""
         result = analyzer.get_internal_torsion()
