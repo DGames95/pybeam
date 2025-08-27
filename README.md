@@ -19,6 +19,8 @@ Beam Analysis is a lightweight Python package for structural beam analysis.
     analyzer.visualize(visualizers.MatplotlibVisualizer())
 
 
+Sign convention: positive shear loads upwards, may be inverted to standard civil beam analysis.
+
 ### Use
 (windows)
 
