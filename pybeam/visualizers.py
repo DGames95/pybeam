@@ -1,23 +1,36 @@
-from typing import Iterable
+""" Visualizers for beam analysis results. """
+
 from abc import ABC, abstractmethod
+from pathlib import Path
+import tempfile
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.gridspec import GridSpec
 from matplotlib.patches import Arc
-from pathlib import Path
-import tempfile
 
-from .loads import Load, PointMoment, PointForce, UniformDistributedLoad
+
+from .loads import PointMoment, PointForce, UniformDistributedLoad
 
 from .analyze import BeamAnalyzer
 
 class Visualizer(ABC):
+    """ Abstract base class for visualizers, taking analysis and rendering it """
     @abstractmethod
     def render(self, analyzer):
-        pass
+        """ Render the analysis results """
+
+
+# pylint: disable-all
+# reason: this needs to be rewritten in general
 
 class MatplotlibVisualizer(Visualizer):
-    def __init__(self, show=True, save=False, save_folder=None, fileformat="png", filename_prefix="beam_analysis"):
+    """ Visualizer using Matplotlib """
+    def __init__(self,
+                 show=True,
+                 save=False,
+                 save_folder=None,
+                 fileformat="png",
+                 filename_prefix="beam_analysis"):
         if save_folder is None:
             save_folder = tempfile.gettempdir()
 
@@ -31,8 +44,8 @@ class MatplotlibVisualizer(Visualizer):
     def render(self, analyzer: BeamAnalyzer):
         # Extract analysis results
         x = analyzer.points
-        v = analyzer.get_internal_shear()
-        m = analyzer.get_internal_moments()
+        v = -analyzer.get_internal_shear()
+        m = -analyzer.get_internal_moments()
 
         fig = plt.figure(figsize=(7, 8))
         gs = GridSpec(3, 1, height_ratios=[1, 1, 1], hspace=0.4)
@@ -41,13 +54,11 @@ class MatplotlibVisualizer(Visualizer):
         ax_load = fig.add_subplot(gs[0])
         ax_load.plot([x[0], x[-1]], [0, 0], color='black', linewidth=4)
 
-        
-
         # Draw Point Loads
         for load in analyzer.case.shear_loads:
             if isinstance(load, PointForce):
                 pos = load.position * analyzer.length
-                direction = -1 if load.magnitude > 0 else 1
+                direction = 1 if load.magnitude > 0 else -1
                 arrow_start = 0.6 * direction
                 arrow_length = -0.5 * direction
                 ax_load.arrow(pos, arrow_start, 0, arrow_length,
@@ -190,6 +201,12 @@ class MatplotlibVisualizer(Visualizer):
         if self.show:
             plt.show()
 
+
+        full_path = str(self.save_path) \
+                    + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}"
+        
         if self.save:
-            fig.savefig(str(self.save_path) + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}", format=self.fileformat, dpi=300)
+            fig.savefig(full_path,
+                        format=self.fileformat,
+                        dpi=300)
             print(f"Saved diagram to: {self.save_path}")

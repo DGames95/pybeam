@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [ main ]
+    branches: [ main, release/* ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, release/* ]
 
 jobs:
   build:
@@ -23,7 +23,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install .[dev]
 
+    - name: mypy type check
+      run: mypy pybeam/
+
+    - name: Run Pylint
+      run: pylint pybeam/
+
     - name: Run tests
       run: |
         pip install pytest
         pytest test
+

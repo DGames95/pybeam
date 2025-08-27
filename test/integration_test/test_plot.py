@@ -22,7 +22,7 @@ def test_saving_plot_member():
 
     member1 = pybeam.members.UniformMember(5, profile1, material1)
 
-    member1.add_shear_load(10, 0.5)
+    member1.add_shear_point_force(10, 0.5)
 
     member1.plot()
 
@@ -32,7 +32,7 @@ def test_saving_plot_member():
 def test_plot_loadable():
     member1 = pybeam.members.Loadable(5, 1000)
 
-    member1.add_shear_load(10, 0.5)
+    member1.add_shear_point_force(10, 0.5)
 
     member1.plot()
 

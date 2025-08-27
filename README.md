@@ -2,22 +2,30 @@
 
 Beam Analysis is a lightweight Python package for structural beam analysis.
 
-### Example
+### Example - Cantilever Beam
 
-    from pybeam import loads, loading_case, analyze, visualizers
+    from pybeam import members
 
-    # supported beam
-    point_force = loads.PointForce(20, 0)
-    point_force_2 = loads.PointForce(20, 1)
-    point_force_3 = loads.PointForce(-40, 0.5)
+    length = 5  # m
+    resolution = 1000  # points
+    load = 50  # N
+    load_position = 5  # m
 
-    # define shear loads on a beam length 1
-    supported_beam = loading_case.LoadingCase( 1, 1000, [], [point_force, point_force_2, point_force_3], [], [], "Supported Beam")
+    # create generic loadable member
+    loadable = members.Loadable(length, resolution)
 
-    analyzer = analyze.BeamAnalyzer(supported_beam)
+    # add load 
+    loadable.add_shear_point_force(load, load_position/length)  # relative position
 
-    analyzer.visualize(visualizers.MatplotlibVisualizer())
+    # reaction loads (no automated solver yet)
+    loadable.add_shear_point_force(-load, 0)
+    loadable.add_point_moment(-load*length, 0)
 
+    loadable.plot()
+
+
+
+Sign convention: positive shear loads downwards.
 
 ### Use
 (windows)

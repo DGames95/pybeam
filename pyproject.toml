@@ -23,7 +23,11 @@ dev = [
   "pytest>=7.0",
   "mypy",
   "pip-tools",
-  "coverage"
+  "coverage",
+  "pylint",
+  "sphinx",
+  "sphinx-rtd-theme",
+  "sphinx-autodoc-typehints"
 ]
 
 [project.urls]

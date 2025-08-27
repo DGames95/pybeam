@@ -1,3 +1,5 @@
+"""Defines various cross-section profiles for beam members."""
+
 from abc import ABC, abstractmethod
 
 class StaticProfile(ABC):
@@ -7,14 +9,18 @@ class StaticProfile(ABC):
 
     @abstractmethod
     def get_area(self) -> float:
-        pass
+        """Return the cross-sectional area of the profile."""
 
     @abstractmethod
-    def get_moment_of_inertia(self) -> float:
-        pass
+    def get_area_moment_of_inertia(self) -> float:
+        """
+        Return the area moment of inertia of the profile 
+        about neutral axis in shear direction.
+        """
 
 
 class IBeamProfile(StaticProfile):
+    """I-Beam cross-section profile."""
     def __init__(self, width: float, height: float, flange_thickness: float, web_thickness: float):
         self.width = width
         self.height = height
@@ -27,7 +33,7 @@ class IBeamProfile(StaticProfile):
         web_area = self.web_thickness * (self.height - 2 * self.flange_thickness)
         return flange_area + web_area
 
-    def get_moment_of_inertia(self) -> float:
+    def get_area_moment_of_inertia(self) -> float:
         # Moment of inertia for each flange about its own centroidal axis
         flange_inertia_centroid = (self.width * self.flange_thickness**3) / 12
         # Distance from the centroid of the flange to the centroid of the I-beam
