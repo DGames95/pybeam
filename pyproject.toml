@@ -27,7 +27,8 @@ dev = [
   "pylint",
   "sphinx",
   "sphinx-rtd-theme",
-  "sphinx-autodoc-typehints"
+  "sphinx-autodoc-typehints",
+  "toml"
 ]
 
 [project.urls]
