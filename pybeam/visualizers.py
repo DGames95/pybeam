@@ -97,7 +97,7 @@ class MatplotlibVisualizer(Visualizer):
                         color='red',
                         ha='center', va='bottom',
                         fontsize=9)
-        
+
         for load in analyzer.case.point_moments:
             if isinstance(load, PointMoment):
                 x_moment = load.position * analyzer.length
@@ -153,15 +153,14 @@ class MatplotlibVisualizer(Visualizer):
 
                 # Filled patch + outline
                 ax_load.fill_between(x_dist, 0, y_curve,
-                                alpha=0.3, color='blue',
-                                label='Weight')
+                                alpha=0.3, color='blue')
                 ax_load.plot(x_dist, y_curve, color='blue', linewidth=2)
 
                 # Centre label (same style you already use)
                 center_x = (start + end) / 2
                 label_y  = y_curve[0] + (0.1 if y_curve[0] < 0 else -0.1)
                 ax_load.text(center_x, label_y,
-                        f'w = {load.w:.1f} N/m',
+                        f'w = {load.w:.1f} N/m',
                         color='blue', ha='center',
                         va='top' if y_curve[0] < 0 else 'bottom',
                         fontsize=9,
@@ -204,7 +203,7 @@ class MatplotlibVisualizer(Visualizer):
 
         full_path = str(self.save_path) \
                     + f"/{self.filename_prefix}_combined_diagrams.{str(self.fileformat)}"
-        
+
         if self.save:
             fig.savefig(full_path,
                         format=self.fileformat,

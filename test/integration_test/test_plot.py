@@ -14,6 +14,16 @@ def test_plotting_point_load():
 
     analyzer.visualize(visualizers.MatplotlibVisualizer())
 
+
+@pytest.mark.skip(reason="Manual Test, check that plot is shown correctly")
+def test_plotting_uniform_dist_load():
+    member1 = pybeam.members.Loadable(5, 1000)
+
+    member1.add_distributed_load(10, 0.5, 1)
+
+    member1.plot()
+
+
 @pytest.mark.skip(reason="Manual Test, check that plot is saved in temp directory")
 def test_saving_plot_member():
     profile1 = pybeam.profiles.IBeamProfile(30, 20, 0.01, 0.01)
@@ -28,6 +38,7 @@ def test_saving_plot_member():
 
     member1.save_plot("test1")
 
+
 @pytest.mark.skip(reason="Manual Test, check that plot is created")
 def test_plot_loadable():
     member1 = pybeam.members.Loadable(5, 1000)
@@ -35,6 +46,7 @@ def test_plot_loadable():
     member1.add_shear_point_force(10, 0.5)
 
     member1.plot()
+
 
 if __name__=="__main__":
     test_plotting_point_load()

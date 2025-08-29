@@ -4,7 +4,7 @@ Module for members - core of the pybeam interface.
 Classes:
     AbstractMember: Abstract base class for beam members.
 
-    Loadable: A class that extends a loading case with simple to use methods. 
+    Loadable: A class that extends a loading case with simple to use methods.
             Can be instantiated directly or used as a mixin.
 
     UniformMember: A uniform beam member with constant cross-section and material properties.
@@ -15,7 +15,7 @@ from abc import ABC, abstractmethod
 
 from pybeam.profiles import StaticProfile
 from pybeam.materials import Material
-from pybeam.loads import PointMoment, PointForce
+from pybeam.loads import PointMoment, PointForce, UniformDistributedLoad
 from pybeam.loading_case import LoadingCase
 from pybeam.analyze import BeamAnalyzer
 from pybeam.visualizers import MatplotlibVisualizer
@@ -32,7 +32,8 @@ class AbstractMember(ABC):
 
 class Loadable():
     """
-    A class that extends a loading case with simple to use methods. 
+    A class that extends a loading case with simple to use methods.
+
     Can be instantiated directly or used as a mixin.
     """
     loading: LoadingCase
@@ -70,6 +71,17 @@ class Loadable():
             position: The relative position along the member (from 0 to 1).
         """
         self.loading.point_moments.append(PointMoment(magnitude, position))
+
+    def add_uniform_distributed_load(self, magnitude: float, start: float, end: float):
+        """
+        Add a uniform distributed load to the member.
+
+        Args:
+            magnitude: The magnitude of the distributed load (force per unit length).
+            start: The relative start position along the member (from 0 to 1).
+            end: The relative end position along the member (from 0 to 1).
+        """
+        self.loading.shear_loads.append(UniformDistributedLoad(magnitude, start, end))
 
     def analyze(self) -> BeamAnalyzer:
         """Return a BeamAnalyzer for this member's loading case."""
