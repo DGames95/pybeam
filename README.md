@@ -57,11 +57,14 @@ beam.plot()
 * Positive **shear force**: acts **downward**
 * Positive **moment**: causes **sagging** (concave up)
 
-## Testing
+## Testing and Development
 
-Install dev dependencies:
+Install dev dependencies into a venv:
 
 ```bash
+python3 -m venv ./venv
+chmod +x ./venv/bin/activate
+./venv/bin/activate
 pip install -r requirements-dev.txt
 ```
 
